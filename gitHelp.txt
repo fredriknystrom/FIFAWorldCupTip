@@ -1,1 +1,48 @@
 Write instructions about git here...
+
+git fetch
+
+git pull
+
+git status
+
+git log // see all your commits
+
+git diff "branch" //shows difference between current version of the branch your on and "branch"
+
+git add "filename" or . //add one or all files to be tracked
+
+git reset "filename" or . //remove one or all files to be untracked
+
+git commit -m "message here" //used when new files are created
+
+git commit -am "message here" //used when all the files only are modified not created
+
+git reset HEAD~1 // unstage last commit
+
+git reset "commit hash" // unstage all commits after and including this
+
+git reset --hard "commit hash" // hard reset meaning all changes after and including this commit will be removed
+
+git checkout "branchname" // switch to another branch
+
+git checkout -b "branchname" // create a new branch "branchname" starting from the version of the current branch
+
+git merge "branchname" // merging "branchname" into current branch
+
+git merge master // merging from master and into your branch, this should be done continuously to keep your code compatible with the current master version
+                 // merging into master should be done with a Pull Request since it's important that the code gets tested or atleast reviewed before getting merged
+
+
+git config --list // show current configurations
+
+git config user.name "username" // change username locally
+
+git config --global user.email "email" // change email globally
+
+
+
+
+
+
+
