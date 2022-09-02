@@ -116,19 +116,17 @@ class Group():
         self.row += 1
 
         # Generate matches for the group 
-        def genCentralHeader(self, row, offset, title):
-            start = get_column_letter(self.col_start + offset)
-            end = get_column_letter(self.col_start + offset + 1)
-            self.ws.merge_cells(f"{start}{row}:{end}{row}")
-            cell = self.ws[f"{start}{row}"]
+        def merge_header(self, row, col, col_width, value):
+            self.ws.merge_cells(f"{self.get_cell(col, row)}:{self.get_cell(col+col_width, row)}")
+            cell = self.ws[self.get_cell(col, row)]
 
-            self.setValueToCell(cell, title)
+            self.setValueToCell(cell, value)
             
         row = self.row_start + 6 
 
-        genCentralHeader(self, row, 0, f"Matches for {self.group_name}")
-        genCentralHeader(self, row, 2, 'Score')
-        cell = self.ws[f"{get_column_letter(self.col_start + 4)}{row}"]
+        merge_header(self, row, self.col_start, 1, f"Matches {self.group_name}")
+        merge_header(self, row, self.col_start+2, 1, "Score")
+        cell = self.ws[self.get_cell(self.col_start + 4, row)]
         self.setValueToCell(cell, 'Result (1, X, 2)')
 
         row += 1
@@ -136,14 +134,14 @@ class Group():
         matches = list(combinations(self.countries, 2))
         for match in matches:
             for col_offset in range(5):
-                cell = self.ws[get_column_letter(self.col_start + col_offset) + str(row)]
+                cell = self.ws[self.get_cell(self.col_start + col_offset, row)]
                 if col_offset == 0:
                     value = match[0]
                 elif col_offset == 1:
                     value = match[1]
                 elif col_offset == 4:
-                    first_team_cell = get_column_letter(self.col_start + col_offset-2) + str(row)
-                    second_team_cell = get_column_letter(self.col_start + col_offset-1) + str(row)
+                    first_team_cell = self.get_cell(self.col_start + col_offset-2, row)
+                    second_team_cell = self.get_cell(self.col_start + col_offset-1, row)
                     value = f'=IF({first_team_cell} > {second_team_cell}, 1, IF({second_team_cell} > {first_team_cell}, 2, "X"))'
                 else:
                     value = ''
@@ -152,14 +150,12 @@ class Group():
             row += 1
 
 
-        
-
         # Add country 
         for r in range(len(self.countries)):
          
             for c in range(5):
                 col_letter = get_column_letter(self.col_start + c)
-                pos =col_letter + str(self.row + r)
+                pos = col_letter + str(self.row + r)
                 cell = self.ws[pos]
                 
                 # Set country name
@@ -200,7 +196,6 @@ class Group():
     # Returns excel formula for getting the goals conceded from the matches to the group scoreboard
     def get_goals_conceded(self, i):
         
-
         c = self.col_start + 2
         r = self.row_start + 7
 
