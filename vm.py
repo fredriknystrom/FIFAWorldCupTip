@@ -171,9 +171,9 @@ class Group():
                 # Get goal scored
                 elif c == 2:
                     value = self.get_goals_scored(r)
-                # Get goal conceeded
+                # Get goal conceded
                 elif c == 3:
-                    value = self.get_goals_conceeded(r)
+                    value = self.get_goals_conceded(r)
                 # Get goal difference
                 elif c == 4:
                     gs_cell = get_column_letter(self.col_start + c-2) + str(self.row + r)
@@ -182,7 +182,7 @@ class Group():
 
                 self.setValueToCell(cell, value)
 
-
+    # Returns excel formula for getting the goals scored from the matches to the group scoreboard
     def get_goals_scored(self, i):
 
         c = self.col_start + 2
@@ -197,21 +197,21 @@ class Group():
         elif i == 3:
             return f'=SUM({self.get_cell(c+1, r+2)}, {self.get_cell(c+1, r+4)}, {self.get_cell(c+1, r+5)})' 
 
-
-    def get_goals_conceeded(self, i):
-        return f'=SUM(1)'
+    # Returns excel formula for getting the goals conceded from the matches to the group scoreboard
+    def get_goals_conceded(self, i):
+        
 
         c = self.col_start + 2
         r = self.row_start + 7
 
         if i == 0:
-            result = {self.get_cell(c, r) : False, self.get_cell(c, r+1) : False, self.get_cell(c, r+2) : False}
+            return f'=SUM({self.get_cell(c+1, r)}, {self.get_cell(c+1, r+1)}, {self.get_cell(c+1, r+2)})' 
         elif i == 1:
-            result = {self.get_cell(c, r) : True, self.get_cell(c, r+3) : False, self.get_cell(c, r+4) : False}
+            return f'=SUM({self.get_cell(c, r)}, {self.get_cell(c+1, r+3)}, {self.get_cell(c+1, r+4)})' 
         elif i == 2:
-            result = {self.get_cell(c, r+1) : True, self.get_cell(c, r+3) : True, self.get_cell(c, r+5) : False}
+            return f'=SUM({self.get_cell(c, r+1)}, {self.get_cell(c, r+3)}, {self.get_cell(c+1, r+5)})' 
         elif i == 3:
-            result = {self.get_cell(c, r+2) : True, self.get_cell(c, r+4) : True, self.get_cell(c, r+5) : True}
+            return f'=SUM({self.get_cell(c, r+2)}, {self.get_cell(c, r+4)}, {self.get_cell(c, r+5)})' 
         
 
     # Returns excel formula for getting the points from the matches to the group scoreboard
