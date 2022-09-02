@@ -193,9 +193,9 @@ class Group():
         elif i == 1:
             return f'=SUM({self.get_cell(c+1, r)}, {self.get_cell(c, r+3)}, {self.get_cell(c, r+4)})' 
         elif i == 2:
-            return f'=SUM({self.get_cell(c, r)}, {self.get_cell(c, r+1)}, {self.get_cell(c, r+2)})' 
+            return f'=SUM({self.get_cell(c+1, r+1)}, {self.get_cell(c+1, r+3)}, {self.get_cell(c, r+5)})' 
         elif i == 3:
-            return f'=SUM({self.get_cell(c, r)}, {self.get_cell(c, r+1)}, {self.get_cell(c, r+2)})' 
+            return f'=SUM({self.get_cell(c+1, r+2)}, {self.get_cell(c+1, r+4)}, {self.get_cell(c+1, r+5)})' 
 
 
     def get_goals_conceeded(self, i):
