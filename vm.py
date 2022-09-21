@@ -35,8 +35,9 @@ def main():
         'A9A9A9',           # Dark Grey
         'EE82EE',           # Violet
         '87CEEB',           # Sky Blue
-    
     ]
+
+    playoff_color = '888888'
 
     group_labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
@@ -52,7 +53,7 @@ def main():
         groups.append(Group(f'Group {group_labels[i]}', group_countires[i],  group_colors[i], row_start +  i*row_offset , col_start, ws))
 
 
-    Playoff(row_start, 13, groups, ws)
+    Playoff(row_start, 13, groups, playoff_color, ws)
     
  
     # Set width of all the columns in range below

@@ -1,13 +1,14 @@
+from openpyxl.styles import PatternFill
 from openpyxl.utils import get_column_letter
 from util_funcs import get_cell, set_value_to_cell
 
 class Playoff():
 
-    def __init__(self, row_start, col_start, groups, ws):
+    def __init__(self, row_start, col_start, groups, color, ws):
 
         self.row_start = row_start
         self.col_start = col_start
-        # self.fill_color = PatternFill(patternType = 'solid', fgColor = color)
+        self.fill_color = PatternFill(patternType = 'solid', fgColor = color)
         self.groups = groups
         self.ws = ws
 
@@ -25,7 +26,7 @@ class Playoff():
     def generate_16(self):
 
         cell = self.ws[get_cell(self.col_start, self.row_start)]
-        set_value_to_cell(cell, 'Round of 16')
+        set_value_to_cell(cell, 'Round of 16', self.fill_color)
 
         row = self.row_start + 1
 
@@ -51,49 +52,55 @@ class Playoff():
                     if c == 3:
                         value1 = ''
                         value2 = ''
-                    set_value_to_cell(cell1, value1)
-                    set_value_to_cell(cell2, value2)
+                    set_value_to_cell(cell1, value1, self.fill_color)
+                    set_value_to_cell(cell2, value2, self.fill_color)
 
                 tmp = text1
                 text1 = text2
                 text2 = tmp
-                row += 3
+                row += 4
 
     def get_round_of_16_winners(self):
-        pass
+        col = self.col_start
+
+        winners = []
+
+        for i in range(8):
+            row = self.row_start + i*4 + 2
+            formula = f'=IF({get_cell(col+2, row)} > {get_cell(col+3, row)}, {get_cell(col, row)}, {get_cell(col+1, row)})'
+            winners.append(formula)
+
+        return winners
 
     def generate_quarterfinals(self):
-        cell = self.ws[get_cell(self.col_start+5, self.row_start)]
-        set_value_to_cell(cell, 'Quarterfinals')
+        col = self.col_start + 5
+        cell = self.ws[get_cell(col, self.row_start)]
+        set_value_to_cell(cell, 'Quarterfinals', self.fill_color)
 
         row = self.row_start + 1
+        teams = self.get_round_of_16_winners()
 
-        for r in range(4):
-            teams = self.get_round_of_16_winners()
+        for r in range(0,8,2):
 
-            text1 = f'Quarter {r+1}'
-            
+            for c in range(4):
+                cell1 = self.ws[get_cell(col + c, row)]
+                cell2 = self.ws[get_cell(col + c, row+1)]
+                if c == 0:
+                    value1 = f'Quarter {r/2+1}'
+                    value2 = teams[r]
+                if c == 1:
+                    value1 = f''
+                    value2 = teams[r+1]
+                if c == 2:
+                    value1 = 'Score'
+                    value2 = ''
+                if c == 3:
+                    value1 = ''
+                    value2 = ''
+                set_value_to_cell(cell1, value1, self.fill_color)
+                set_value_to_cell(cell2, value2, self.fill_color)
 
-            # for team in range(2):
-            #     for c in range(4):
-            #         cell1 = self.ws[get_cell(self.col_start + c, row)]
-            #         cell2 = self.ws[get_cell(self.col_start + c, row+1)]
-            #         if c == 0:
-            #             value1 = f'1st in {text1}'
-            #             value2 = teams[team]
-            #         if c == 1:
-            #             value1 = f''
-            #             value2 = teams[team+1]
-            #         if c == 2:
-            #             value1 = 'Score'
-            #             value2 = ''
-            #         if c == 3:
-            #             value1 = ''
-            #             value2 = ''
-            #         set_value_to_cell(cell1, value1)
-            #         set_value_to_cell(cell2, value2)
-
-            #     row += 3
+            row += 4
 
     def generate_semifinals(self):
         pass
