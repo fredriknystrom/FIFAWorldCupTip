@@ -5,3 +5,4 @@ Scripts
 VMQuiz.xlsx
 ~$VMQuiz.xlsx
 __pycache__
+venv/
