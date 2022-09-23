@@ -182,11 +182,25 @@ class Group():
     def get_second(self):
 
         r = self.row_start+1
+        r2 = r + 1
         name_c = self.col_start_offset
-        result_c = self.col_start_offset +1
+        result_c = self.col_start_offset + 1
         gd_c = self.col_start_offset + 4
 
+        winner = self.w(self.col_start_offset, self.row_start + 1, self.row_start + 2)
+        second = self.w(self.col_start_offset, self.row_start + 2, self.row_start + 3)
+        continue_second = self.w(self.col_start_offset, self.row_start + 1, self.row_start + 3)
+
+        # Figure out arguments to call this recursivly with get_second function
+        recursive = f'IF({get_cell(result_c, r)} > {get_cell(result_c, r2)}, {self.w(name_c, r, r2+1)}, IF({get_cell(result_c, r)} = {get_cell(result_c, r2)}, IF({get_cell(gd_c, r)} > {get_cell(gd_c, r2)}, {self.w(c, r, r2+1)}, {self.w(c, r2, r2+1)}), {self.w(c, r2, r2+1)}))'
+
+        formula = f'IF({get_cell(name_c, r)} = {winner}, {second}, IF({get_cell(name_c, r2)} = {winner}, {continue_second}, {recursive}))'
+
+        return f'={formula}'
+
         def helper(r, opponent):
+
+            
 
             wwl = (f'AND(OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[0])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[0])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[0])})),' + 
                     f'OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[1])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[1])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[1])})),' + 
