@@ -30,22 +30,35 @@ class Playoff():
 
         row = self.row_start + 1
 
-        for r in range(0,7,2):
-            teams = [self.groups[r].get_winner(), self.groups[r+1].get_second(), self.groups[r+1].get_winner(), self.groups[r].get_second()]
-
+        for r in range(0,8,2):
+        
             text1 = f'Group {get_column_letter(r+1)}'
             text2 = f'Group {get_column_letter(r+2)}'
 
-            for team in range(0,4,2):
+            for i in range(2):
+                if i == 0:
+                    first_group = self.groups[r]
+                    second_group = self.groups[r+1]
+                if i == 1:
+                    first_group = self.groups[r+1]
+                    second_group = self.groups[r]
+
+                winner = first_group.get_winner()
+                print(winner)
+               
+                second = second_group.get_second()
+                print(second)
+              
+                    
                 for c in range(4):
                     cell1 = self.ws[get_cell(self.col_start + c, row)]
                     cell2 = self.ws[get_cell(self.col_start + c, row+1)]
                     if c == 0:
                         value1 = f'1st in {text1}'
-                        value2 = teams[team]
+                        value2 = winner
                     if c == 1:
                         value1 = f'2nd in {text2}'
-                        value2 = teams[team+1]
+                        value2 = second
                     if c == 2:
                         value1 = 'Score'
                         value2 = ''

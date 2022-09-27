@@ -6,7 +6,7 @@ class Group():
 
     def __init__(self, group_name, countries, color, row_start, col_start, ws):
         self.group_name = group_name
-        self.group_headers = [group_name, 'Points', 'GS', 'GC', 'GD']
+        self.group_headers = [group_name, 'Points', 'GS', 'GC', 'GD', 'Total']
         self.countries = countries
         self.row_start = row_start
         self.col_start = col_start
@@ -71,7 +71,7 @@ class Group():
         for r in range(len(self.countries)):
             row +=1
          
-            for c in range(5):
+            for c in range(6):
                 cell = self.ws[get_cell(self.col_start_offset + c, row)]
                 
                 # Set country name
@@ -88,9 +88,13 @@ class Group():
                     value = self.get_goals_conceded(r)
                 # Get goal difference
                 elif c == 4:
-                    gs_cell = get_cell(self.col_start_offset + c-2, row)
-                    gc_cell = get_cell(self.col_start_offset + c-1, row)
+                    gs_cell = get_cell(self.col_start_offset + 2, row)
+                    gc_cell = get_cell(self.col_start_offset + 3, row)
                     value = f"=SUM({gs_cell}, -{gc_cell})"
+                elif c == 5:
+                    points_cell = get_cell(self.col_start_offset + 1, row)
+                    gd_cell = get_cell(self.col_start_offset + 4, row)
+                    value = f"=SUM({points_cell}*1000, {gd_cell}, {gs_cell}*0.001)"
 
                 set_value_to_cell(cell, value, self.fill_color)
 
@@ -156,73 +160,29 @@ class Group():
         elif i == 3:
             result = {get_cell(c, r+2) : True, get_cell(c, r+4) : True, get_cell(c, r+5) : True}
         return points_from_result(result)
-
-
-
-    def w(self, c, r, r2):
-            name_c = c
-            result_c = c +1
-            gd_c = c + 4
-            
-
-            if r2 == self.row_start + 5:
-                return get_cell(name_c, r)
-
-            formula = f'IF({get_cell(result_c, r)} > {get_cell(result_c, r2)}, {self.w(c, r, r2+1)}, IF({get_cell(result_c, r)} = {get_cell(result_c, r2)}, IF({get_cell(gd_c, r)} > {get_cell(gd_c, r2)}, {self.w(c, r, r2+1)}, {self.w(c, r2, r2+1)}), {self.w(c, r2, r2+1)}))'
-
-            return(formula)
+        
 
     def get_winner(self):
 
-        winner_formula = f'={self.w(self.col_start_offset, self.row_start + 1, self.row_start + 2)}'
+        range1 = f'{get_cell(self.col_start_offset+5, self.row_start+1)}:{get_cell(self.col_start_offset+5, self.row_start+4)}'
 
-        return winner_formula
+        range2 = f'{get_cell(self.col_start_offset, self.row_start+1)}:{get_cell(self.col_start_offset, self.row_start+4)}'
+
+        test = f'=INDEX({range2},MATCH(LARGE({range1},1),{range1},0))'
+
+        return test
+
 
 
     def get_second(self):
 
-        r = self.row_start+1
-        r2 = r + 1
-        name_c = self.col_start_offset
-        result_c = self.col_start_offset + 1
-        gd_c = self.col_start_offset + 4
+        range1 = f'{get_cell(self.col_start_offset+5, self.row_start+1)}:{get_cell(self.col_start_offset+5, self.row_start+4)}'
 
-        winner = self.w(self.col_start_offset, self.row_start + 1, self.row_start + 2)
-        second = self.w(self.col_start_offset, self.row_start + 2, self.row_start + 3)
-        continue_second = self.w(self.col_start_offset, self.row_start + 1, self.row_start + 3)
+        range2 = f'{get_cell(self.col_start_offset, self.row_start+1)}:{get_cell(self.col_start_offset, self.row_start+4)}'
 
-        # Figure out arguments to call this recursivly with get_second function
-        recursive = f'IF({get_cell(result_c, r)} > {get_cell(result_c, r2)}, {self.w(name_c, r, r2+1)}, IF({get_cell(result_c, r)} = {get_cell(result_c, r2)}, IF({get_cell(gd_c, r)} > {get_cell(gd_c, r2)}, {self.w(c, r, r2+1)}, {self.w(c, r2, r2+1)}), {self.w(c, r2, r2+1)}))'
+        test = f'=INDEX({range2},MATCH(LARGE({range1},2),{range1},0))'
 
-        formula = f'IF({get_cell(name_c, r)} = {winner}, {second}, IF({get_cell(name_c, r2)} = {winner}, {continue_second}, {recursive}))'
-
-        return f'={formula}'
-
-        def helper(r, opponent):
-
-            
-
-            wwl = (f'AND(OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[0])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[0])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[0])})),' + 
-                    f'OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[1])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[1])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[1])})),' + 
-                    f'OR({get_cell(result_c, r)} < {get_cell(result_c, opponent[2])}))')
-
-
-            wlw = (f'AND(OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[0])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[0])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[0])})),'+
-                    f'OR({get_cell(result_c, r)} < {get_cell(result_c, opponent[1])}),' + 
-                    f'OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[2])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[2])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[2])})))')
-                 
-            lww = (f'AND(OR({get_cell(result_c, r)} < {get_cell(result_c, opponent[0])}),' + 
-                   f'OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[1])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[0])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[0])})),' +
-                   f'OR({get_cell(result_c, r)} > {get_cell(result_c, opponent[2])}, AND({get_cell(result_c, r)} = {get_cell(result_c, opponent[2])}, {get_cell(gd_c, r)} > {get_cell(gd_c, opponent[2])})))')
-                  
-            return f'OR({wwl}, {wlw}, {lww})'
-
-        l1 = [4,5,6]
-        l2 = [3,5,6]
-        l3 = [3,4,6]
-        l4 = [3,4,5]
-
-        return f'=IF({helper(r, l1)}, {get_cell(name_c, r)}, IF({helper(r+1, l2)}, {get_cell(name_c, r+1)}, IF({helper(r+2, l3)}, {get_cell(name_c, r+2)}, IF({helper(r+3, l4)}, {get_cell(name_c, r+3)}, "unknown"))))'
+        return test
         
 
     def __repr__(self) -> str:

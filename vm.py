@@ -53,7 +53,7 @@ def main():
         groups.append(Group(f'Group {group_labels[i]}', group_countires[i],  group_colors[i], row_start +  i*row_offset , col_start, ws))
 
 
-    Playoff(row_start, 13, groups, playoff_color, ws)
+    Playoff(row_start, 14, groups, playoff_color, ws)
     
  
     # Set width of all the columns in range below
