@@ -1,17 +1,20 @@
+from time import sleep
+from turtle import delay
 from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 from Group import Group
 from Playoff import Playoff
+import os
 
 
 def main():
-    try:
-        # Only works for xl with xlsx ext
-        wb = load_workbook('VMQuiz.xlsx')
-    except Exception:
-        wb = Workbook()
 
-    # Worksheet
+    path = os.path.abspath('VMQuiz.xlsx')
+    if os.path.exists(path):
+        os.remove(path)
+
+    # Create workbook and activate worksheet
+    wb = Workbook()
     ws = wb.active
     ws.title = 'VM Quiz 2022'
 
@@ -57,7 +60,7 @@ def main():
     
  
     # Set width of all the columns in range below
-    for i in range(1,30):
+    for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
     wb.save('VMQuiz.xlsx')

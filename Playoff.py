@@ -2,18 +2,20 @@ from openpyxl.styles import PatternFill
 from openpyxl.utils import get_column_letter
 from util_funcs import get_cell, set_value_to_cell
 
+
 class Playoff():
 
     def __init__(self, row_start, col_start, groups, color, ws):
 
         self.row_start = row_start
         self.col_start = col_start
+        self.col_offset = 5
         self.fill_color = PatternFill(patternType = 'solid', fgColor = color)
         self.groups = groups
         self.ws = ws
 
-
         self.generate_playoff()
+
 
     def generate_playoff(self):
 
@@ -44,12 +46,8 @@ class Playoff():
                     second_group = self.groups[r]
 
                 winner = first_group.get_winner()
-                print(winner)
-               
                 second = second_group.get_second()
-                print(second)
-              
-                    
+     
                 for c in range(4):
                     cell1 = self.ws[get_cell(self.col_start + c, row)]
                     cell2 = self.ws[get_cell(self.col_start + c, row+1)]
@@ -73,33 +71,28 @@ class Playoff():
                 text2 = tmp
                 row += 4
 
-    def get_round_of_16_winners(self):
-        col = self.col_start
+    def generate_finals(self, n_teams, final_type, winner_func, col_offset):
+    
+        col = self.col_start + col_offset
+        row = self.row_start
 
-        winners = []
+        if final_type != 'Final':
+            cell = self.ws[get_cell(col, row)]
+            set_value_to_cell(cell, final_type + 's', self.fill_color)
+            row += 1
 
-        for i in range(8):
-            row = self.row_start + i*4 + 2
-            formula = f'=IF({get_cell(col+2, row)} > {get_cell(col+3, row)}, {get_cell(col, row)}, {get_cell(col+1, row)})'
-            winners.append(formula)
+        teams = winner_func
 
-        return winners
-
-    def generate_quarterfinals(self):
-        col = self.col_start + 5
-        cell = self.ws[get_cell(col, self.row_start)]
-        set_value_to_cell(cell, 'Quarterfinals', self.fill_color)
-
-        row = self.row_start + 1
-        teams = self.get_round_of_16_winners()
-
-        for r in range(0,8,2):
+        for r in range(0, n_teams, 2):
 
             for c in range(4):
                 cell1 = self.ws[get_cell(col + c, row)]
                 cell2 = self.ws[get_cell(col + c, row+1)]
                 if c == 0:
-                    value1 = f'Quarter {r/2+1}'
+                    if final_type == 'Final':
+                        value1 = final_type
+                    else:
+                        value1 = f'{final_type} {int(r/2+1)}'
                     value2 = teams[r]
                 if c == 1:
                     value1 = f''
@@ -112,12 +105,41 @@ class Playoff():
                     value2 = ''
                 set_value_to_cell(cell1, value1, self.fill_color)
                 set_value_to_cell(cell2, value2, self.fill_color)
-
+            # adds space between matches
             row += 4
 
+    def generate_quarterfinals(self):
+        self.generate_finals(8, 'Quarterfinal', self.get_round_of_16_winners(), self.col_offset)
+
+
     def generate_semifinals(self):
-        pass
+        self.generate_finals(4, 'Semifinal', self.get_quaterfinal_winners(), 2*self.col_offset)
+
 
     def generate_final(self):
-        pass
-        
+        self.generate_finals(2, 'Final', self.get_semifinal_winners(), 3*self.col_offset)
+
+
+    def get_winners(self, n_winners, col_offset):
+        col = self.col_start + col_offset
+        winners = []
+
+        for i in range(n_winners):
+            row = self.row_start + i*4 + 2
+            formula = f'=IF({get_cell(col+2, row)} > {get_cell(col+3, row)}, {get_cell(col, row)}, {get_cell(col+1, row)})'
+            winners.append(formula)
+
+        return winners
+
+
+    def get_round_of_16_winners(self):
+        return self.get_winners(8, 0)
+    
+
+    def get_quaterfinal_winners(self):
+        return self.get_winners(4, self.col_offset)
+
+
+    def get_semifinal_winners(self):
+        return self.get_winners(2, 2*self.col_offset)
+   
