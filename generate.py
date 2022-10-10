@@ -1,5 +1,4 @@
-from time import sleep
-from turtle import delay
+
 from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 from Group import Group
@@ -8,8 +7,7 @@ import os
 
 
 def main():
-
-    path = os.path.abspath('VMQuiz.xlsx')
+    path = os.path.abspath('quizes/test.xlsx')
     if os.path.exists(path):
         os.remove(path)
 
@@ -63,7 +61,7 @@ def main():
     for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
-    wb.save('VMQuiz.xlsx')
+    wb.save('test.xlsx')
 
 
 if __name__ == "__main__":
