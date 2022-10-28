@@ -61,7 +61,7 @@ def main():
     for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
-    wb.save('test.xlsx')
+    wb.save('quizes/test.xlsx')
 
 
 if __name__ == "__main__":
