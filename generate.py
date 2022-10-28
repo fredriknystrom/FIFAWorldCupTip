@@ -7,7 +7,7 @@ import os
 
 
 def main():
-    path = os.path.abspath('quizes/test.xlsx')
+    path = os.path.abspath('quizes/troll.xlsx')
     if os.path.exists(path):
         os.remove(path)
 
@@ -61,7 +61,7 @@ def main():
     for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
-    wb.save('quizes/test.xlsx')
+    wb.save('quizes/troll.xlsx')
 
 
 if __name__ == "__main__":

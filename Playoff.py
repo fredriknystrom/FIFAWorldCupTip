@@ -71,6 +71,7 @@ class Playoff():
                 text2 = tmp
                 row += 4
 
+
     def generate_finals(self, n_teams, final_type, winner_func, col_offset):
     
         col = self.col_start + col_offset
@@ -82,7 +83,6 @@ class Playoff():
             row += 1
 
         teams = winner_func
-
         for r in range(0, n_teams, 2):
 
             for c in range(4):
@@ -107,6 +107,7 @@ class Playoff():
                 set_value_to_cell(cell2, value2, self.fill_color)
             # adds space between matches
             row += 4
+
 
     def generate_quarterfinals(self):
         self.generate_finals(8, 'Quarterfinal', self.get_round_of_16_winners(), self.col_offset)
