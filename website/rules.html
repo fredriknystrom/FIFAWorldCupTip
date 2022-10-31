@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup Quiz</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://use.fontawesome.com/00275485d4.js"></script>
+</head>
+<body>
+<!-- Header section -->
+<section class="header">
+    <nav>
+        <a href="index.html"><img src="images/ball.jpeg"></a>
+        <div class="nav-links" id="navLinks">
+            <i class="fa fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="join.html">JOIN</a></li>
+                    <li><a href="rules.html">RULES</a></li>
+                    <li><a href="standings.html">STANDINGS</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+        </div>
+        <i class="fa fa-bars" onclick="showMenu()"></i>
+    </nav>
+
+</section>
+
+<!----- Rules section----->
+<section class="rules">
+    <h1>Rules for how the points will be counted</h1>
+    <p>
+        The maximum points availible will be 323 points. There will be 144 points in retrievable from 
+        groups and 159 points from playoffs.<br> Another 20 points can be recieved from top scorer and 
+        most goals scored.
+    </p>
+    <div class="row">
+        <div class="rules-col">
+            <h3>Groups</h3>
+            <p>
+                There are 48 matches played in the group stage. For each match you get one point for the 
+                correct result 1, X, 2. You will also get one point for each correct part of the score. 
+                So a maximum of three points can be retrieved per match.
+            </p>
+        </div>
+        <div class="rules-col">
+            <h3>Playoff</h3>
+            <p>
+                During the playoffs points for each match will be the same as in the group stage. However points 
+                for the score and result will be recieved even if you dont have the correct team in that slot of the 
+                playoff. Points will also be given for each team you have correct reaching the next part of the playoff. 
+                Two points per team reaching the round of 16. Four points per team reaching the quaterfinals. 
+                Six points per team reaching semifinals. Eight points per team reaching the final. Finally ten points will 
+                be awarded for the world cup winner.
+            </p>
+        </div>
+        <div class="rules-col">
+            <h3>Top scorer and goals</h3>
+            <p>
+                Correct top scorer gives ten points. Correct amount of goals scored for the top scorer will give ten points. 
+                These points can be obtained even if top scorer is incorrect.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <h4>Created by Fredrik Nyström</h4>
+</section>
+
+<!-- JavaScript for toggling menu -->
+<script>
+    var navLinks = document.getElementById("navLinks");
+    function showMenu(){
+        navLinks.style.right = "0"
+    }
+    function hideMenu(){
+        navLinks.style.right = "-200px"
+    }
+</script>
+</body>
+</html>
