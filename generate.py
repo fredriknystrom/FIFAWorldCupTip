@@ -1,5 +1,5 @@
 
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from Group import Group
 from Playoff import Playoff
@@ -53,15 +53,16 @@ def main():
     for i in range(len(group_countires)):
         groups.append(Group(f'Group {group_labels[i]}', group_countires[i],  group_colors[i], row_start +  i*row_offset , col_start, ws))
 
-
     Playoff(row_start, 14, groups, playoff_color, ws)
+
+
     
  
     # Set width of all the columns in range below
     for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
-    wb.save('quizes/troll.xlsx')
+    wb.save('quizes/new.xlsx')
 
 
 if __name__ == "__main__":

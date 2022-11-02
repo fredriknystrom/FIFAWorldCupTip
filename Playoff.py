@@ -18,18 +18,16 @@ class Playoff():
 
 
     def generate_playoff(self):
-
         self.generate_16()
         self.generate_quarterfinals()
         self.generate_semifinals()
         self.generate_final()
+        self.generate_winner_and_top_scorer()
 
 
     def generate_16(self):
-
         cell = self.ws[get_cell(self.col_start, self.row_start)]
         set_value_to_cell(cell, 'Round of 16', self.fill_color)
-
         row = self.row_start + 1
 
         for r in range(0,8,2):
@@ -73,7 +71,6 @@ class Playoff():
 
 
     def generate_finals(self, n_teams, final_type, winner_func, col_offset):
-    
         col = self.col_start + col_offset
         row = self.row_start
 
@@ -121,12 +118,24 @@ class Playoff():
         self.generate_finals(2, 'Final', self.get_semifinal_winners(), 3*self.col_offset)
 
 
-    def get_winners(self, n_winners, col_offset):
+    def generate_winner_and_top_scorer(self):
+        row = self.row_start + 5
+        col = self.col_start + 3*self.col_offset
+        values = [['Winner','x','Top Scorer', 'Goals Scored'],[self.get_final_winner(),'x','', '']]
+        for r in range(2):
+            for c in range(4):
+                value = values[r][c]
+                if value != 'x':
+                    cell = self.ws[get_cell(col+c, row+r)]
+                    set_value_to_cell(cell, values[r][c], self.fill_color)
+
+
+    def get_winners(self, n_winners, col_offset, final = 0):
         col = self.col_start + col_offset
         winners = []
-
+       
         for i in range(n_winners):
-            row = self.row_start + i*4 + 2
+            row = self.row_start + i*4 + 2 - final
             formula = f'=IF({get_cell(col+2, row)} > {get_cell(col+3, row)}, {get_cell(col, row)}, {get_cell(col+1, row)})'
             winners.append(formula)
 
@@ -143,4 +152,6 @@ class Playoff():
 
     def get_semifinal_winners(self):
         return self.get_winners(2, 2*self.col_offset)
-   
+
+    def get_final_winner(self):
+        return self.get_winners(1, 3*self.col_offset, 1)[0] # subtracts one from row_start

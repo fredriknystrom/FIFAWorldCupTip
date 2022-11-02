@@ -1,5 +1,4 @@
-from openpyxl import Workbook, load_workbook
-from openpyxl.utils import get_column_letter
+from openpyxl import load_workbook
 from util_funcs import get_cell
 import os
 
