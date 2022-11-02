@@ -1,2 +1,2 @@
-test: 260
-troll: 8
+1. test:            106 points
+2. tip_blueprint:   102 points
