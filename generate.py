@@ -28,17 +28,17 @@ def main():
     ]
 
     group_colors = [
-        'FF4500',           # Orange Red
-        '9ACD32',           # yellow green
-        'FF8C00',           # Dark Orange
-        '1E90FF',           # Dodger Blue
-        'FFD700',           # Gold
-        'A9A9A9',           # Dark Grey
-        'EE82EE',           # Violet
-        '87CEEB',           # Sky Blue
+        'FB4D3D',          
+        '9ACD32',          
+        'F7C548',          
+        '1E90FF', 
+        '226F54', 
+        'FF8811',         
+        'CB769E',          
+        '7CDEDC',          
     ]
 
-    playoff_color = '888888'
+    playoff_color = '8D99AE'
 
     group_labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
@@ -62,7 +62,7 @@ def main():
     for i in range(1,40):
         ws.column_dimensions[get_column_letter(i)].width = 15
 
-    wb.save('quizes/new.xlsx')
+    wb.save('quizes/solution.xlsx')
 
 
 if __name__ == "__main__":

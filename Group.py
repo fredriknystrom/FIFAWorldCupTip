@@ -23,21 +23,13 @@ class Group():
         self.generate_scoreboard()
 
 
-    # Helper method to merge headers
-    def merge_header(self, row, col, col_width, value):
-        self.ws.merge_cells(f"{get_cell(col, row)}:{get_cell(col+col_width, row)}")
-        cell = self.ws[get_cell(col, row)]
-
-        set_value_to_cell(cell, value, self.fill_color)
-
     def generate_matches(self):
         row = self.row_start
-
-        self.merge_header(row, self.col_start, 1, f"Matches {self.group_name}")
-        self.merge_header(row, self.col_start+2, 1, "Score")
-        cell = self.ws[get_cell(self.col_start + 4, row)]
-        set_value_to_cell(cell, 'Result (1, X, 2)', self.fill_color)
-
+        values = [f"Matches {self.group_name}", '', 'Score', '', 'Result (1, X, 2)']
+        for i in range(5):
+            cell = self.ws[get_cell(self.col_start+i, row)]
+            set_value_to_cell(cell, values[i], self.fill_color)
+        
         matches = list(combinations(self.countries, 2))
         for match in matches:
             row += 1
