@@ -4,7 +4,6 @@ import os
 
 
 def main():
-
     solution_wb = load_workbook('quizes/solution.xlsx', data_only=True)
     solution_ws = solution_wb.active
     results = dict()
@@ -26,7 +25,6 @@ def main():
 
 
 def compare_tip(ws, solution_ws):
-
     total_points = 0
     # one point per correct scored goals and one point if correct match result
     total_points += group_points(ws, solution_ws, [3, 4, 5])
@@ -36,6 +34,7 @@ def compare_tip(ws, solution_ws):
     total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
     # one point per correct scored goals and six points per correct team into semifinals
     total_points += semi_points(ws, solution_ws, 2, 6, [24, 25, 26, 27])
+    # one point per correct scored goals and eight points per correct team into final 
 
     return total_points
 
@@ -65,7 +64,7 @@ def get_teams(solution_ws, n_matches, col_range):
             teams.append(solution_ws[cell].value)
     return teams
 
-# helper function to get points from different parts in the playoff
+# helper function to get points from different parts of the playoff
 def get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range):
     teams = get_teams(solution_ws, n_matches, col_range[0:3])
     points = 0
@@ -93,8 +92,8 @@ def semi_points(ws, solution_ws, n_matches, team_points, col_range):
     return get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range)
 
 
-# def final_points():
-#     return get_playoffs_points(ws, solution_ws, n_matches, team_points)
+def final_points(ws, solution_ws, n_matches, team_points, col_range):
+    return get_playoffs_points(ws, solution_ws, n_matches, team_points)
     
 
 if __name__ == '__main__':

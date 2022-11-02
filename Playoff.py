@@ -77,7 +77,7 @@ class Playoff():
         if final_type != 'Final':
             cell = self.ws[get_cell(col, row)]
             set_value_to_cell(cell, final_type + 's', self.fill_color)
-            row += 1
+        row += 1
 
         teams = winner_func
         for r in range(0, n_teams, 2):
@@ -154,4 +154,4 @@ class Playoff():
         return self.get_winners(2, 2*self.col_offset)
 
     def get_final_winner(self):
-        return self.get_winners(1, 3*self.col_offset, 1)[0] # subtracts one from row_start
+        return self.get_winners(1, 3*self.col_offset)[0]
