@@ -1,2 +1,4 @@
-1. test:            106 points
-2. tip_blueprint:   102 points
+1. allcorrect: 308 points
+2. niclas: 199 points
+3. test: 112 points
+4. tip_blueprint: 84 points
