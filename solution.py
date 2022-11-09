@@ -36,13 +36,13 @@ def compare_tip(ws, solution_ws):
     total_points += round_of_16_points(ws, solution_ws, 8, 2, [14, 15, 16, 17]) 
     # one point per correct scored goals and four points per correct team into quarterfinals
     total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
-    # one point per correct scored goals and six points per correct team into semifinals
-    total_points += semi_points(ws, solution_ws, 2, 6, [24, 25, 26, 27])
-    # one point per correct scored goals and eight points per correct team into final
-    total_points += final_points(ws, solution_ws, 1, 8, [29, 30, 31, 32])
+    # one point per correct scored goals and eight points per correct team into semifinals
+    total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
+    # one point per correct scored goals and sixteen points per correct team into final
+    total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
     # 10 points for correct winner
     total_points += winner_points(ws, solution_ws, 'AC8')
-    # ten points for top scorer and 10 points for correct number of goals
+    # ten points for top scorer and 16 points for correct number of goals
     total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE8', 'AF8'])
 
     return total_points
@@ -107,7 +107,7 @@ def final_points(ws, solution_ws, n_matches, team_points, col_range):
 
 def winner_points(ws, solution_ws, cell):
     if ws[cell].value == solution_ws[cell].value:
-        return 10
+        return 32
     else:
         return 0
 
@@ -116,12 +116,12 @@ def top_scorer_and_goals_points(ws, solution_ws, cells):
     points = 0
     try:
         if ws[cells[0]].value.lower() == solution_ws[cells[0]].value.lower():
-            points += 10
+            points += 16
     except:
         print("No top scorer was filled in")
     finally:
         if ws[cells[1]].value == solution_ws[cells[1]].value:
-            points += 10
+            points += 16
         return points
     
 
