@@ -6,3 +6,5 @@ VMQuiz.xlsx
 ~$VMQuiz.xlsx
 __pycache__
 venv/
+quizes/
+result.txt

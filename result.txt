@@ -1,4 +1,2 @@
-1. allcorrect: 366 points
-2. niclas: 255 points
-3. test: 158 points
-4. tip_blueprint: 110 points
+1.    Fredrik Nyström: 0 points
+2.    Johannes Holmgren: 0 points
