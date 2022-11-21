@@ -32,23 +32,23 @@ def main():
 def compare_tip(ws, solution_ws):
     total_points = 0
     # one point per correct scored goals and one point if correct match result
-    #total_points += group_points(ws, solution_ws, [3, 4, 5])
+    total_points += group_points(ws, solution_ws, [3, 4, 5])
     # one point per correct scored goals and two points per correct team into round of 16 
-    #total_points += round_of_16_points(ws, solution_ws, 8, 2, [14, 15, 16, 17]) 
+    total_points += round_of_16_points(ws, solution_ws, 8, 2, [14, 15, 16, 17]) 
     # one point per correct scored goals and four points per correct team into quarterfinals
-    #total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
+    total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
     # one point per correct scored goals and eight points per correct team into semifinals
-    #total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
+    total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
     # one point per correct scored goals and sixteen points per correct team into final
-    #total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
+    total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
     # bronze match points
     total_points += get_playoffs_points(ws, solution_ws, 1, 0, [29, 30, 31, 32], 4)
     # 16 points for correct winner
-    #total_points += bronze_points(ws, solution_ws, 'AD12')
+    total_points += bronze_points(ws, solution_ws, 'AD12')
     # 32 points for correct winner
-    #total_points += gold_points(ws, solution_ws, 'AC12')
+    total_points += gold_points(ws, solution_ws, 'AC12')
     # ten points for top scorer and 16 points for correct number of goals
-    #total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE12', 'AF12'])
+    total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE12', 'AF12'])
 
     return total_points
 
@@ -82,7 +82,7 @@ def get_teams(solution_ws, n_matches, col_range):
 def get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range, row_offset=0):
     teams = get_teams(solution_ws, n_matches, col_range[0:3])
     points = 0
-    for row in range(4+row_offset, n_matches*4+1, 4):
+    for row in range(4+row_offset, n_matches*4+1+row_offset, 4):
         for col in col_range[0:2]:
             cell = get_cell(col, row)
             if ws[cell].value in teams:
