@@ -41,10 +41,14 @@ def compare_tip(ws, solution_ws):
     #total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
     # one point per correct scored goals and sixteen points per correct team into final
     #total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
-    # 10 points for correct winner
-    #total_points += winner_points(ws, solution_ws, 'AC8')
+    # bronze match points
+    total_points += get_playoffs_points(ws, solution_ws, 1, 0, [29, 30, 31, 32], 4)
+    # 16 points for correct winner
+    #total_points += bronze_points(ws, solution_ws, 'AD12')
+    # 32 points for correct winner
+    #total_points += gold_points(ws, solution_ws, 'AC12')
     # ten points for top scorer and 16 points for correct number of goals
-    #total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE8', 'AF8'])
+    #total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE12', 'AF12'])
 
     return total_points
 
@@ -75,10 +79,10 @@ def get_teams(solution_ws, n_matches, col_range):
     return teams
 
 # helper function to get points from different parts of the playoff
-def get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range):
+def get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range, row_offset=0):
     teams = get_teams(solution_ws, n_matches, col_range[0:3])
     points = 0
-    for row in range(4, n_matches*4+1, 4):
+    for row in range(4+row_offset, n_matches*4+1, 4):
         for col in col_range[0:2]:
             cell = get_cell(col, row)
             if ws[cell].value in teams:
@@ -106,7 +110,13 @@ def final_points(ws, solution_ws, n_matches, team_points, col_range):
     return get_playoffs_points(ws, solution_ws, n_matches, team_points, col_range)
 
 
-def winner_points(ws, solution_ws, cell):
+def bronze_points(ws, solution_ws, cell):
+    if ws[cell].value == solution_ws[cell].value:
+        return 16
+    else:
+        return 0
+
+def gold_points(ws, solution_ws, cell):
     if ws[cell].value == solution_ws[cell].value:
         return 32
     else:
