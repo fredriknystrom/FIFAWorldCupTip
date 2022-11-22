@@ -6,7 +6,7 @@ import codecs
 
 
 def main():
-    solution_wb = load_workbook('quizes/solution.xlsx', data_only=True)
+    solution_wb = load_workbook('solution/solution.xlsx', data_only=True)
     solution_ws = solution_wb.active
     results = dict()
 
