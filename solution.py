@@ -6,13 +6,17 @@ import codecs
 
 
 def main():
+    results_from_folder('chalmers', 'chalmers.txt')
+    results_from_folder('family', 'family.txt')
+    
+def results_from_folder(folder_path, result_file_name):
     solution_wb = load_workbook('solution/solution.xlsx', data_only=True)
     solution_ws = solution_wb.active
     results = dict()
 
-    for file in os.listdir('quizes'):
+    for file in os.listdir(folder_path):
         if file != '.DS_Store':
-            wb = load_workbook(f'quizes/{file}', data_only=True)
+            wb = load_workbook(f'{folder_path}/{file}', data_only=True)
             ws = wb.active
     
             name = file.split('.')[0]
@@ -22,7 +26,7 @@ def main():
     # sorts dict by values
     results = dict( sorted(results.items(), key=operator.itemgetter(1),reverse=True))
 
-    with codecs.open('result.txt', encoding='utf-8', mode='w') as result_file:
+    with codecs.open(result_file_name, encoding='utf-8', mode='w') as result_file:
         num = 1
         for key, value in results.items():
             result_file.write(f'{num}.    {key}: {value} points <br>\n')

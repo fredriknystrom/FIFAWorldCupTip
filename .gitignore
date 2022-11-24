@@ -7,5 +7,8 @@ VMQuiz.xlsx
 __pycache__
 venv/
 quizes/
-result.txt
 /solution/*
+/chalmers/*
+/family/*
+chalmers.txt
+family.txt
