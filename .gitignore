@@ -2,11 +2,8 @@ pyvenv.cfg
 Include
 Lib*
 Scripts
-VMQuiz.xlsx
-~$VMQuiz.xlsx
 __pycache__
 venv/
-quizes/
 /solution/*
 /chalmers/*
 /family/*
