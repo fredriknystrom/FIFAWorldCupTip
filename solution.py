@@ -38,7 +38,7 @@ def compare_tip(ws, solution_ws):
     # one point per correct scored goals and one point if correct match result
     total_points += group_points(ws, solution_ws, [3, 4, 5])
     # one point per correct scored goals and two points per correct team into round of 16 
-    #total_points += round_of_16_points(ws, solution_ws, 8, 2, [14, 15, 16, 17]) 
+    total_points += round_of_16_points(ws, solution_ws, 8, 2, [14, 15, 16, 17]) 
     # one point per correct scored goals and four points per correct team into quarterfinals
     #total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
     # one point per correct scored goals and eight points per correct team into semifinals
