@@ -42,7 +42,7 @@ def compare_tip(ws, solution_ws):
     # one point per correct scored goals and four points per correct team into quarterfinals
     total_points += quarter_points(ws, solution_ws, 4, 4, [19, 20, 21, 22]) 
     # one point per correct scored goals and eight points per correct team into semifinals
-    #total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
+    total_points += semi_points(ws, solution_ws, 2, 8, [24, 25, 26, 27])
     # one point per correct scored goals and sixteen points per correct team into final
     #total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
     # bronze match points
