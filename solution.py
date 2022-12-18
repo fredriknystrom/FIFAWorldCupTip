@@ -46,13 +46,13 @@ def compare_tip(ws, solution_ws):
     # one point per correct scored goals and sixteen points per correct team into final
     total_points += final_points(ws, solution_ws, 1, 16, [29, 30, 31, 32])
     # bronze match points
-    #total_points += get_playoffs_points(ws, solution_ws, 1, 0, [29, 30, 31, 32], 4)
+    total_points += get_playoffs_points(ws, solution_ws, 1, 0, [29, 30, 31, 32], 4)
     # 16 points for correct winner
-    #total_points += bronze_points(ws, solution_ws, 'AD12')
+    total_points += bronze_points(ws, solution_ws, 'AD12')
     # 32 points for correct winner
-    #total_points += gold_points(ws, solution_ws, 'AC12')
+    total_points += gold_points(ws, solution_ws, 'AC12')
     # 16 points for top scorer and 16 points for correct number of goals
-    #total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE12', 'AF12'])
+    total_points += top_scorer_and_goals_points(ws, solution_ws, ['AE12', 'AF12'])
 
     return total_points
 
