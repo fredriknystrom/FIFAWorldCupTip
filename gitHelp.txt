@@ -6,11 +6,11 @@ git pull
 
 git status
 
+git restore "filename" // remove all changes in file aka restore file to last pull state
+
 git log // see all your commits
 
 git diff "branch" //shows difference between current version of the branch your on and "branch"
-
-git restore "filename" // restore deleted file
 
 git add "filename" or . //add one or all files to be tracked
 
